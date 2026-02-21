@@ -37,7 +37,7 @@ function Login() {
       // Save token
       localStorage.setItem("token", response.data.access_token);
 
-      // Redirect (dashboard later)
+      // Redirect (dashboard )
       navigate("/dashboard");
 
     } catch (err) {

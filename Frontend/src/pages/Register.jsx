@@ -26,7 +26,7 @@ function Register() {
   const detail = err.response?.data?.detail;
 
   if (Array.isArray(detail)) {
-    // FastAPI validation errors
+    
     setError(detail[0].msg);
   } else if (typeof detail === "string") {
     setError(detail);

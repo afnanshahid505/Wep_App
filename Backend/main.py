@@ -47,7 +47,7 @@ def home():
 @app.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 def register(user: UserCreate, db: Session = Depends(get_db)):
     
-    # 1️⃣ Check if email already exists
+    
     existing_user = db.query(User).filter(User.email == user.email).first()
     if existing_user:
         raise HTTPException(
@@ -55,7 +55,7 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
             detail="Email already registered"
         )
 
-    # 2️⃣ Check if username already exists
+    
     existing_username = db.query(User).filter(User.username == user.username).first()
     if existing_username:
         raise HTTPException(
@@ -63,27 +63,27 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
             detail="Username already taken"
         )
 
-    # 3️⃣ Hash the password
+    
     hashed_pwd = hash_password(user.password)
 
-    # 4️⃣ Create user object
+    # Create user object
     new_user = User(
         username=user.username,
         email=user.email,
         hashed_password=hashed_pwd
     )
 
-    # 5️⃣ Save to database
+    # Save to database
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
 
-    # 6️⃣ Return safe response
+    # Return safe response
     return new_user
 @app.post("/login")
 def login(user: UserLogin, db: Session = Depends(get_db)):
     
-    # 1️⃣ Check if user exists
+    # Check if user exists
     db_user = db.query(User).filter(User.email == user.email).first()
     if not db_user:
         raise HTTPException(
@@ -91,19 +91,19 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
             detail="Invalid email or password"
         )
 
-    # 2️⃣ Verify password
+    # Verify password
     if not verify_password(user.password, db_user.hashed_password):
         raise HTTPException(
             status_code=400,
             detail="Invalid email or password"
         )
 
-    # 3️⃣ Create JWT token
+    # Create JWT token
     access_token = create_access_token(
         data={"user_id": db_user.id}
     )
 
-    # 4️⃣ Return token
+    # Return token
     return {
         "access_token": access_token,
         "token_type": "bearer"
