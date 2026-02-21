@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.middleware.cors import CORSMiddleware
 
 from database import engine, SessionLocal
 from models import Base, User, Task
@@ -10,6 +11,13 @@ from auth import hash_password,verify_password,create_access_token,decode_access
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Frontend Intern Assignment API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # React frontend
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def get_db():
     db = SessionLocal()
