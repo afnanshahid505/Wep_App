@@ -21,11 +21,20 @@ function Register() {
         password,
       });
       navigate("/login");
-    } catch (err) {
-      setError(
-        err.response?.data?.detail || "Registration failed. Try again."
-      );
-    }
+    } 
+      catch (err) {
+  const detail = err.response?.data?.detail;
+
+  if (Array.isArray(detail)) {
+    // FastAPI validation errors
+    setError(detail[0].msg);
+  } else if (typeof detail === "string") {
+    setError(detail);
+  } else {
+    setError("Registration failed. Please check your inputs.");
+  }
+}
+    
   };
 
   return (
@@ -96,7 +105,7 @@ function Register() {
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
             <p className="text-xs text-gray-400 mt-1">
-              Must be at least 6 characters
+              choose a tough password
             </p>
           </div>
 
