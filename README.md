@@ -32,4 +32,20 @@ It demonstrates secure authentication, protected routes, and CRUD operations usi
 - JWT (authentication)
 - Passlib & bcrypt (password hashing)
 ---
+## API Documentation
+This project uses FastAPI, which provides automatic interactive API documentation.
+Swagger UI is available at:
+http://127.0.0.1:8000/docs
+All authentication, user, and task CRUD endpoints can be tested directly from the Swagger interface.
 
+## Scalability & Production Considerations
+If this application were to be scaled for production, the following improvements would be applied:
+
+- Replace SQLite with PostgreSQL for better concurrency and reliability
+- Store JWT secrets and database credentials in environment variables
+- Add refresh tokens for improved authentication security
+- Deploy frontend and backend as separate services
+- Use Nginx as a reverse proxy
+- Enable HTTPS and secure CORS policies
+- Add pagination and indexing for large task datasets
+- Containerize services using Docker for easier deployment
