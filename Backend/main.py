@@ -10,7 +10,7 @@ from auth import hash_password,verify_password,create_access_token,decode_access
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Web App")
+app = FastAPI(title="Web_App")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173"],  # React frontend
